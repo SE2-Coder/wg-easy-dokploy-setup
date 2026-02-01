@@ -21,8 +21,12 @@ Deploy your own VPN server with [WG-Easy](https://github.com/wg-easy/wg-easy) us
 
 3. **Environment Variables**:
    Add the following variables in Dokploy:
-   - `WG_HOST`: Your VPS Public IP or a domain (e.g., `vpn.example.com`).
+   - `WG_HOST`: Your domain (e.g., `vpn.se2code.com`). This ensures generated client configs use the domain.
    - `PASSWORD`: A secure password for the Web UI.
+
+4. **Domain & SSL**:
+   - In Dokploy, go to the **Domains** tab of your application.
+   - Add your domain and enable **HTTPS** (Traefik will handle the SSL certificate).
 
 4. **Firewall Setup**:
    Ensure the following ports are open on your VPS:
