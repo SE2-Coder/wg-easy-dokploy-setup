@@ -55,3 +55,16 @@ If the Web UI loads but your password is rejected:
 2. **Verify the Hash**: The hash should start with `$2y$` or `$2b$`. Make sure you copied the **entire** string output by the `wghash` command without extra spaces or quotes.
 3. **Escaping `$`**: In some cases, Dokploy might try to interpret the `$` in the hash. If you are still seeing errors, try entering the hash in Dokploy with single quotes around it (e.g., `'$2y$10$...'`) or check the application logs to see if the hash is being received correctly.
 4. **Redeploy**: Always click **Redeploy** after changing environment variables.
+
+### Troubleshooting Connectivity (No Internet)
+
+If you can connect to the VPN but have no internet access:
+
+1. **Check the Handshake**: In your WireGuard app (mobile or desktop), check if a "Handshake" has occurred. If "Data Received" is `0 B`, the connection is not being established.
+2. **Open UDP Port 51820**: Ensure your VPS firewall (Oracle Cloud, AWS, etc.) has an ingress rule for port **`51820`** with the protocol **`UDP`**. This is different from the Web UI port.
+3. **Verify `WG_HOST`**: Ensure `WG_HOST` is correctly set to your public IP or a domain that resolves to it.
+4. **Host IP Forwarding**: If you have a handshake but still no internet, you might need to enable IP forwarding on your host. Run this on your server:
+   ```bash
+   echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
+   sudo sysctl -p
+   ```
