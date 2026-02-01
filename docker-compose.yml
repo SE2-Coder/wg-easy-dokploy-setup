@@ -24,7 +24,7 @@ services:
     container_name: wg-easy
     privileged: true
     volumes:
-      - ./etc_wireguard:/etc/wireguard
+      - wg-data:/etc/wireguard
       # 🖼️ OPTIONAL: Custom Logo (Requires a logo.svg file in this directory)
       # - ./custom-logo.svg:/app/public/img/logo.svg
     ports:
@@ -38,6 +38,10 @@ services:
       - net.ipv4.ip_forward=1
     networks:
       - dokploy-network
+
+volumes:
+  wg-data:
+
 
 networks:
   dokploy-network:
