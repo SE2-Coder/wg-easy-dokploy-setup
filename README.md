@@ -47,24 +47,27 @@ Replace `YOUR_PASSWORD` with the password you want to use. Copy the resulting ha
 5. **Initial Access**:
    Once deployed, access the Web UI at `http://<your-ip>:51821`.
 
-### Troubleshooting Authentication
+### Troubleshooting & Critical Notes
 
-If the Web UI loads but your password is rejected:
+> [!IMPORTANT]
+> **Cloud Provider Firewall (Lightsail/Oracle/AWS)**:
+> You **MUST** open port **51820 UDP** directly in your cloud provider's firewall panel. Opening it in Dokploy is not enough for the VPN tunnel.
 
-1. **Remove the old `PASSWORD` variable**: Ensure you have deleted the `PASSWORD` environment variable from Dokploy if it existed. Having both can cause conflicts.
-2. **Verify the Hash**: The hash should start with `$2y$` or `$2b$`. Make sure you copied the **entire** string output by the `wghash` command without extra spaces or quotes.
-3. **Escaping `$`**: In some cases, Dokploy might try to interpret the `$` in the hash. If you are still seeing errors, try entering the hash in Dokploy with single quotes around it (e.g., `'$2y$10$...'`) or check the application logs to see if the hash is being received correctly.
-4. **Redeploy**: Always click **Redeploy** after changing environment variables.
-
-### Troubleshooting Connectivity (No Internet)
-
-If you can connect to the VPN but have no internet access:
-
-1. **Check the Handshake**: In your WireGuard app (mobile or desktop), check if a "Handshake" has occurred. If "Data Received" is `0 B`, the connection is not being established.
-2. **Open UDP Port 51820**: Ensure your VPS firewall (Oracle Cloud, AWS, etc.) has an ingress rule for port **`51820`** with the protocol **`UDP`**. This is different from the Web UI port.
-3. **Verify `WG_HOST`**: Ensure `WG_HOST` is correctly set to your public IP or a domain that resolves to it.
-4. **Host IP Forwarding**: If you have a handshake but still no internet, you might need to enable IP forwarding on your host. Run this on your server:
+1. **Web UI Access**: Port `51821 TCP`.
+2. **Handshake but no data**: This is fixed in the current `docker-compose.yml` with `MTU=1200` and `privileged: true`.
+3. **Password Issues**: Remember to use a **Bcrypt hash** for `PASSWORD_HASH` and escape `$` characters with `$$` in the Dokploy panel if necessary.
+4. **IP Forwarding**: Ensure your host has forwarding enabled:
    ```bash
    echo "net.ipv4.ip_forward = 1" | sudo tee -a /etc/sysctl.conf
    sudo sysctl -p
    ```
+
+## Built by SE2-Code
+
+Maintainer: [SE2-Coder](https://github.com/SE2-Coder)
+Website: [https://www.se2code.com](https://www.se2code.com)
+
+### Links of Interest
+- [WG-Easy GitHub](https://github.com/wg-easy/wg-easy)
+- [Dokploy Documentation](https://dokploy.com/docs)
+- [Bcrypt Generator](https://bcrypt-generator.com/)
