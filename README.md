@@ -26,7 +26,8 @@ Deploy your own VPN server with [WG-Easy](https://github.com/wg-easy/wg-easy) us
 
 4. **Domain & SSL**:
    - In Dokploy, go to the **Domains** tab of your application.
-   - Add your domain and enable **HTTPS** (Traefik will handle the SSL certificate).
+   - Add your domain and enable **HTTPS**.
+   - **Port**: Set the port to `51821` (this is the Web UI port).
 
 4. **Firewall Setup**:
    Ensure the following ports are open on your VPS:
