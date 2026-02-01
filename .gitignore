@@ -1,9 +1,17 @@
 # Sensitive files
 *.sql
 *.env
+/Users/se2/Documents/SSH/VPN/VPNKey.pem
 
 # Docker data
 etc_wireguard/
 
+# Custom UI Assets
+*logo.svg
+*logo.png
+
 # OS files
 .DS_Store
+
+# Agent rules
+.agent/
