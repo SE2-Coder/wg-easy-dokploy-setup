@@ -18,7 +18,6 @@ services:
       - UI_CHART_TYPE=0
     image: ghcr.io/wg-easy/wg-easy
     container_name: wg-easy
-    privileged: true
     volumes:
       - ./etc_wireguard:/etc/wireguard
     ports:
@@ -30,7 +29,6 @@ services:
       - SYS_MODULE
     sysctls:
       - net.ipv4.ip_forward=1
-      - net.ipv4.conf.all.src_valid_mark=1
     networks:
       - dokploy-network
 
