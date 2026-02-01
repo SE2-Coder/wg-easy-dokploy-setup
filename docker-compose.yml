@@ -18,11 +18,15 @@ services:
       - WG_POST_DOWN=iptables -t nat -D POSTROUTING -s 10.8.0.0/24 -j MASQUERADE; iptables -D FORWARD -i %i -j ACCEPT; iptables -D FORWARD -o %i -j ACCEPT
       - UI_TRAFFIC_STATS=true
       - UI_CHART_TYPE=0
+      # 🎨 OPTIONAL: Custom UI Title
+      - UI_TITLE=SE2 VPN
     image: ghcr.io/wg-easy/wg-easy
     container_name: wg-easy
     privileged: true
     volumes:
       - ./etc_wireguard:/etc/wireguard
+      # 🖼️ OPTIONAL: Custom Logo (Requires a logo.svg file in this directory)
+      # - ./custom-logo.svg:/app/public/img/logo.svg
     ports:
       - "51820:51820/udp"
       - "51821:51821/tcp"
