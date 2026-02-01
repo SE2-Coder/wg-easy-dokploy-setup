@@ -27,8 +27,11 @@ Deploy your own VPN server with [WG-Easy](https://github.com/wg-easy/wg-easy) us
 #### How to generate the PASSWORD_HASH:
 You can generate the hash running this command in your terminal (using Docker):
 ```bash
-docker run  --rm -it ghcr.io/wg-easy/wg-easy wghash YOUR_PASSWORD
+docker run --rm -it ghcr.io/wg-easy/wg-easy wghash 'YOUR_PASSWORD'
 ```
+> [!IMPORTANT]
+> If your password contains special characters (like `&`, `$`, `#`, `!`), you **MUST** wrap it in **single quotes** `'`.
+
 Replace `YOUR_PASSWORD` with the password you want to use. Copy the resulting hash into Dokploy.
 
 4. **Domain & SSL**:
