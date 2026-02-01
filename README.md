@@ -44,6 +44,11 @@ Replace `YOUR_PASSWORD` with the password you want to use. Copy the resulting ha
 5. **Initial Access**:
    Once deployed, access the Web UI at `http://<your-ip>:51821`.
 
-## Security Note
+### Troubleshooting Authentication
 
-The `./etc_wireguard` directory and the `AccessAG.sql` file are automatically excluded via `.gitignore` and should **never** be committed to the repository. The latter contains sensitive access credentials.
+If the Web UI loads but your password is rejected:
+
+1. **Remove the old `PASSWORD` variable**: Ensure you have deleted the `PASSWORD` environment variable from Dokploy if it existed. Having both can cause conflicts.
+2. **Verify the Hash**: The hash should start with `$2y$` or `$2b$`. Make sure you copied the **entire** string output by the `wghash` command without extra spaces or quotes.
+3. **Escaping `$`**: In some cases, Dokploy might try to interpret the `$` in the hash. If you are still seeing errors, try entering the hash in Dokploy with single quotes around it (e.g., `'$2y$10$...'`) or check the application logs to see if the hash is being received correctly.
+4. **Redeploy**: Always click **Redeploy** after changing environment variables.
