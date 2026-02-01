@@ -21,8 +21,15 @@ Deploy your own VPN server with [WG-Easy](https://github.com/wg-easy/wg-easy) us
 
 3. **Environment Variables**:
    Add the following variables in Dokploy:
-   - `WG_HOST`: Your domain (e.g., `vpn.se2code.com`). This ensures generated client configs use the domain.
-   - `PASSWORD`: A secure password for the Web UI.
+   - `WG_HOST`: Your domain (e.g., `vpn.se2code.com`).
+   - `PASSWORD_HASH`: A **bcrypt** hash of your password.
+
+#### How to generate the PASSWORD_HASH:
+You can generate the hash running this command in your terminal (using Docker):
+```bash
+docker run  --rm -it ghcr.io/wg-easy/wg-easy wghash YOUR_PASSWORD
+```
+Replace `YOUR_PASSWORD` with the password you want to use. Copy the resulting hash into Dokploy.
 
 4. **Domain & SSL**:
    - In Dokploy, go to the **Domains** tab of your application.
