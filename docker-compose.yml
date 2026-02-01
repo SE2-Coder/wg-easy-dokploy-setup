@@ -2,10 +2,9 @@ services:
   wg-easy:
     environment:
       # ⚠️ REQUIRED: Change this to your VPS's public IP or domain
-      - WG_HOST=${WG_HOST}
+      - WG_HOST
       # ⚠️ REQUIRED: Web UI Password Hash
-      # See README.md for instructions on how to generate this
-      - PASSWORD_HASH=${PASSWORD_HASH}
+      - PASSWORD_HASH
       # Optional:
       # - PORT=51821
       # - WG_PORT=51820
