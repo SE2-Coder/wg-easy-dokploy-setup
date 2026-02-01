@@ -1,43 +1,37 @@
-# Stalwart Mail Server on Dokploy
+# WG-Easy on Dokploy
 
-This repository contains the configuration to deploy [Stalwart Mail Server](https://stalw.art/) using Docker on Dokploy.
+Deploy your own VPN server with [WG-Easy](https://github.com/wg-easy/wg-easy) using Dokploy. This setup includes a beautiful Web UI for managing WireGuard clients.
 
-## DNS Configuration (Crucial for Subdomain)
+## Features
 
-To use a subdomain (e.g., `mail.yourdomain.com`), add these records in your DNS provider:
-
-| Type | Name | Value | Priority |
-| :--- | :--- | :--- | :--- |
-| **A** | `mail` | `YOUR_VPS_IP` | - |
-| **MX** | `mail` | `mail.yourdomain.com.` | `10` |
-| **TXT** | `mail` | `v=spf1 a -all` | - |
-
-> [!NOTE]
-> Replace `mail` with your preferred subdomain name.
+- **Beautiful Web UI**: Easy to use interface.
+- **QR Code Support**: Quickly connect devices by scanning a QR code.
+- **Traffic Monitoring**: See real-time traffic statistics.
+- **Persistent Storage**: All configurations are saved in `./etc_wireguard`.
 
 ## Deployment Steps
 
-1. **GitHub Setup**: 
-   - Push this repository to your GitHub account (already linked as `git@github.com:SE2-Coder/instant-stalwart-docker.git`).
+1. **Clone & Push**:
+   - Push this repository to your GitHub account (linked to `git@github.com:SE2-Coder/wg-easy-dokploy-setup.git`).
 
 2. **Dokploy Configuration**:
    - Go to your Dokploy Dashboard.
    - Create a new **Compose** deployment.
    - Point it to this repository.
-   - **Environment Variables**: Add `STALWART_ADMIN_PASSWORD` in Dokploy with the password found in your `AccessStalwart.sql` file.
 
-3. **Firewall Setup**:
-   Ensure the following ports are open on your VPS (YOUR_VPS_IP):
-   - `25` (SMTP)
-   - `465` (SMTPS)
-   - `587` (Submission)
-   - `143` (IMAP)
-   - `993` (IMAPS)
-   - `8080` (HTTP Admin UI)
+3. **Environment Variables**:
+   Add the following variables in Dokploy:
+   - `WG_HOST`: Your VPS Public IP or a domain (e.g., `vpn.example.com`).
+   - `PASSWORD`: A secure password for the Web UI.
 
-4. **Initial Access**:
-   Once deployed, access the admin interface at `http://<your-ip>:8080` or configure a domain in Dokploy settings.
+4. **Firewall Setup**:
+   Ensure the following ports are open on your VPS:
+   - `51820/UDP`: WireGuard VPN port.
+   - `51821/TCP`: Web UI port.
+
+5. **Initial Access**:
+   Once deployed, access the Web UI at `http://<your-ip>:51821`.
 
 ## Security Note
 
-The `AccessStalwart.sql` file and SSH keys are excluded via `.gitignore` and must **never** be committed to this repository.
+The `./etc_wireguard` directory and the `AccessAG.sql` file are automatically excluded via `.gitignore` and should **never** be committed to the repository. The latter contains sensitive access credentials.

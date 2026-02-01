@@ -1,10 +1,10 @@
 # Sensitive files
-AccessStalwart.sql
+*.sql
+*.env
 /Users/se2/Documents/SSH/VPN/VPNKey.pem
 
 # Docker data
-stalwart-data/
-stalwart-config/
+etc_wireguard/
 
 # OS files
 .DS_Store

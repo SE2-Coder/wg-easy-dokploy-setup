@@ -1,36 +1,37 @@
 services:
-  stalwart:
-    image: stalwartlabs/stalwart:latest
-    container_name: stalwart
-    restart: unless-stopped
+  wg-easy:
     environment:
-      - STALWART_ADMIN_USER=admin
-      - STALWART_ADMIN_PASSWORD=${STALWART_ADMIN_PASSWORD}
-    ports:
-      # SMTP
-      - "25:25"
-      # SMTPS
-      - "465:465"
-      # Submission
-      - "587:587"
-      # IMAP
-      - "143:143"
-      # IMAPS
-      - "993:993"
-      # POP3
-      - "110:110"
-      # POP3S
-      - "995:995"
-      # ManageSieve
-      - "4190:4190"
-      # HTTP (Admin UI & JMAP)
-      - "8081:8080"
+      # ⚠️ REQUIRED: Change this to your VPS's public IP or domain
+      - WG_HOST=${WG_HOST}
+      # ⚠️ REQUIRED: Web UI Password
+      - PASSWORD=${PASSWORD}
+      # Optional:
+      # - PORT=51821
+      # - WG_PORT=51820
+      # - WG_CONFIG_PORT=51821
+      # - WG_DEFAULT_ADDRESS=10.8.0.x
+      - WG_DEFAULT_DNS=1.1.1.1
+      - WG_MTU=1420
+      - WG_ALLOWED_IPS=0.0.0.0/0, ::/0
+      # - WG_PERSISTENT_KEEPALIVE=25
+      # - WG_PRE_UP=echo "Pre Up" > /etc/wireguard/pre-up.txt
+      # - WG_POST_UP=echo "Post Up" > /etc/wireguard/post-up.txt
+      # - WG_PRE_DOWN=echo "Pre Down" > /etc/wireguard/pre-down.txt
+      # - WG_POST_DOWN=echo "Post Down" > /etc/wireguard/post-down.txt
+      - UI_TRAFFIC_STATS=true
+      - UI_CHART_TYPE=0 # 0: Area, 1: Bar, 2: Line
+    image: ghcr.io/wg-easy/wg-easy
+    container_name: wg-easy
     volumes:
-      - ./stalwart-data:/opt/stalwart-mail/data
-      - ./stalwart-config:/opt/stalwart-mail/etc
-    networks:
-      - stalwart-network
-
-networks:
-  stalwart-network:
-    driver: bridge
+      - ./etc_wireguard:/etc/wireguard
+    ports:
+      - "51820:51820/udp"
+      - "51821:51821/tcp"
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+      # - NET_RAW # Uncomment if you need to use ping/traceroute from within the container
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv4.ip_forward=1
