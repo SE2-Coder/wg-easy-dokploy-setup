@@ -19,7 +19,7 @@ services:
       - UI_TRAFFIC_STATS=true
       - UI_CHART_TYPE=0
       # 🎨 OPTIONAL: Custom UI Title
-      - UI_TITLE=SE2 VPN
+      - UI_TITLE=${UI_TITLE:-SE2 VPN}
     image: ghcr.io/wg-easy/wg-easy
     container_name: wg-easy
     privileged: true
